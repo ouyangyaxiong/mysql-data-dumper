@@ -78,6 +78,26 @@
         <div class="page-header">
             <h1>Mysql Data Dumper</h1>
         </div>
+
+        <div class="btn-group">
+            <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+                DataBases
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <!-- dropdown menu links -->
+                <li>
+                    <a href="#">DataBase1</a>
+                </li>
+                <li>
+                    <a href="#">DataBase2</a>
+                </li>
+                <li>
+                    <a href="#">DataBase3</a>
+                </li>
+            </ul>
+        </div>
+
         <form class="form-horizontal" style="margin: 0 auto">
             <div class="control-group">
                 <label class="control-label" for="slaveIp">Slave Ip</label>
