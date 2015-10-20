@@ -4,6 +4,6 @@
 
 ## UI 展示
 
-![UI](https://github.com/rollenholt/mysql-data-dumper/tree/master/img/1.pic.jpg)
+![UI](img/1.pic.jpg)
 
 ## 功能列表
