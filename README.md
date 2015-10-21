@@ -29,7 +29,7 @@
 
 ## 运行
 
-    run Application.java
+    mvn spring-boot:run
 
 ## TODO
 
