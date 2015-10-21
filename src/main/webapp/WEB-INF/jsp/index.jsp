@@ -54,7 +54,7 @@
 
 <div class="container">
 
-    <form class="form-signin" id="loginForm">
+    <form class="form-signin" id="loginForm" action="/login" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
         <input type="text" class="input-block-level" placeholder="User name">
         <input type="password" class="input-block-level" placeholder="Password">

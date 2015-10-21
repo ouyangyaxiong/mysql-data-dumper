@@ -16,7 +16,11 @@ public class LoginController {
         if ("root".equalsIgnoreCase(user.getName()) && "root".equalsIgnoreCase(user.getPassword())) {
             return "executor";
         }
-        return "/";
+        return "index";
     }
 
+    @RequestMapping(value = "/")
+    public String login(){
+        return "index";
+    }
 }
