@@ -17,6 +17,7 @@
 ## UI 展示
 
 ![UI](img/1.pic.jpg)
+![UI](img/2.pic.jpg)
 
 ## 功能列表
 

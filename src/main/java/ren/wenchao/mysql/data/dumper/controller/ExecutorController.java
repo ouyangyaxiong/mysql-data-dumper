@@ -50,7 +50,11 @@ public class ExecutorController {
 //            Result<List<String>> result = new Result<>(false, "please check you sql!", messages);
 //            return new ModelAndView("executor", "result", result);
 //        }
-        List<Map<String, Object>> values = executorComponent.doExecute(executorRequest);
-        return new Result<>(true, "execute successful", values);
+        try {
+            List<Map<String, Object>> values = executorComponent.doExecute(executorRequest);
+            return new Result<>(true, "execute successful", values);
+        }catch (Exception e) {
+            return new Result<>(false, e.getMessage(), null);
+        }
     }
 }

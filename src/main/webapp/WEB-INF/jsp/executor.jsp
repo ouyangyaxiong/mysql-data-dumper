@@ -85,7 +85,7 @@
                         renderTable(data);
                     } else {
                         $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
-                        $("#executeFlag").html("sql execute error.")
+                        $("#executeFlag").html(data.message)
                     }
                 }
             })
