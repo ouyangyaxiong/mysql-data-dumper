@@ -26,6 +26,11 @@
 - 数据的导出
 - 数据的导出同时下载为CSV格式的文件
 
+
+## 运行
+
+    run Application.java
+
 ## TODO
 
 - 数据下载
