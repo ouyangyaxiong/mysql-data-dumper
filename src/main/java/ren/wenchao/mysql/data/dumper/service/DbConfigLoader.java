@@ -84,4 +84,8 @@ public class DbConfigLoader {
         }
         return dbConf;
     }
+
+    public Map<String, DbConf> getDbConfMap() {
+        return dbConfMap;
+    }
 }

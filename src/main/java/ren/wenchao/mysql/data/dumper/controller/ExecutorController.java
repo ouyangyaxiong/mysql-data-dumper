@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ren.wenchao.mysql.data.dumper.model.ExecutorRequest;
 import ren.wenchao.mysql.data.dumper.model.Result;
 import ren.wenchao.mysql.data.dumper.service.ExecutorComponent;
+import ren.wenchao.mysql.data.dumper.service.ExecutorPageRender;
 import ren.wenchao.mysql.data.dumper.service.SqlStatementHandlerManager;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author rollenholt
@@ -30,11 +32,20 @@ public class ExecutorController {
     private ExecutorComponent executorComponent;
 
     @Resource
+    private ExecutorPageRender executorPageRender;
+
+    @Resource
     private SqlStatementHandlerManager sqlStatementHandlerManager;
 
     @RequestMapping(value = "/render", method = RequestMethod.GET)
     public String renderDumperPage() {
         return "executor";
+    }
+
+    @RequestMapping(value = "/databases", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<String> getConfigedDatabases() {
+        return executorPageRender.getConfigedDatabases();
     }
 
     @RequestMapping(value = "/execute", method = RequestMethod.POST)

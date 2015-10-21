@@ -67,56 +67,6 @@
     <link href="/css/bootstrap-responsive.css" rel="stylesheet">
     <link rel="shortcut icon" href="../assets/ico/favicon.png">
 
-    <script>
-        function formSubmit() {
-            $.ajax({
-                type: "post",
-                cache: false,
-                url: "/executor/execute",
-                data: $("#dbForm").serialize(),
-                error: function (request) {
-                    $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
-                    $("#executeFlag").html("form submit error, please retry or contact system admin.")
-                },
-                success: function (data) {
-                    if(data.ret){
-                        $("#executeResult").removeClass("alert alert-error").addClass("alert alert-success");
-                        $("#executeFlag").html("sql execute success.")
-                        renderTable(data);
-                    } else {
-                        $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
-                        $("#executeFlag").html(data.message)
-                    }
-                }
-            })
-        }
-
-        function renderTable(data){
-            if(data.data.length == 0){
-                $("caption").html("Execute Result: <strong>count(*) = 0</strong>")
-                return;
-            }
-            var titles=new Array()
-            var firstElement = data.data[0]
-            $("caption").html("Execute Result: <strong>count(*) = " + data.data.length + "</strong>")
-            $.each(firstElement, function(k, v) {
-                titles.push(k);
-            })
-            $.each(titles, function(k, v){
-                $("#dataHead tr").append(
-                        "<th>" + v + "</th>"
-                );
-            })
-            $.each(data.data, function(key, value) {
-                $("#dataBody").append("<tr>")
-                $.each(value, function(k, v) {
-                    $("#dataBody").append("<td>" + v + "</td>");
-                })
-                $("#dataBody").append("</tr>");
-            })
-        }
-    </script>
-
 </head>
 
 <body>
@@ -137,7 +87,6 @@
 
                 <div class="controls">
                     <select id="database" name="database">
-                        <option>test</option>
                     </select>
                 </div>
             </div>
@@ -178,6 +127,74 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            type: "get",
+            cache: false,
+            url: "/executor/databases",
+            error:function(request) {
+                alert("can not get configed databases, please retry or contact system admin.")
+            },
+            success: function(data) {
+                var databases = "";
+                $.each(data, function(k, v){
+                    databases += "<option>" + v + "</option>"
+                })
+                $("#database").append(databases);
+            }
+        })
+    });
+
+    function formSubmit() {
+        $.ajax({
+            type: "post",
+            cache: false,
+            url: "/executor/execute",
+            data: $("#dbForm").serialize(),
+            error: function (request) {
+                $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
+                $("#executeFlag").html("form submit error, please retry or contact system admin.")
+            },
+            success: function (data) {
+                if(data.ret){
+                    $("#executeResult").removeClass("alert alert-error").addClass("alert alert-success");
+                    $("#executeFlag").html("sql execute success.")
+                    renderTable(data);
+                } else {
+                    $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
+                    $("#executeFlag").html(data.message)
+                }
+            }
+        })
+    }
+
+    function renderTable(data){
+        if(data.data.length == 0){
+            $("caption").html("Execute Result: <strong>count(*) = 0</strong>")
+            return;
+        }
+        var titles=new Array()
+        var firstElement = data.data[0]
+        $("caption").html("Execute Result: <strong>count(*) = " + data.data.length + "</strong>")
+        $.each(firstElement, function(k, v) {
+            titles.push(k);
+        })
+        $.each(titles, function(k, v){
+            $("#dataHead tr").append(
+                    "<th>" + v + "</th>"
+            );
+        })
+        $.each(data.data, function(key, value) {
+            $("#dataBody").append("<tr>")
+            $.each(value, function(k, v) {
+                $("#dataBody").append("<td>" + v + "</td>");
+            })
+            $("#dataBody").append("</tr>");
+        })
+    }
+</script>
 
 </body>
 </html>
