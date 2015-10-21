@@ -31,6 +31,10 @@
 
     mvn spring-boot:run
 
+然后访问: http://localhost:8080/
+
+默认的用户名和密码都是: root
+
 ## TODO
 
 - 数据下载
