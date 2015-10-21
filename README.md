@@ -16,8 +16,8 @@
 
 ## UI 展示
 
-![UI](img/1.pic.jpg)
-![UI](img/2.pic.jpg)
+![界面ui展示](img/1.pic.jpg)
+![异常情况展示](img/2.pic.jpg)
 
 ## 功能列表
 
