@@ -93,11 +93,12 @@
 
         function renderTable(data){
             if(data.data.length == 0){
-                console.log("no result")
+                $("caption").html("Execute Result: <strong>count(*) = 0</strong>")
                 return;
             }
             var titles=new Array()
             var firstElement = data.data[0]
+            $("caption").html("Execute Result: <strong>count(*) = " + data.data.length + "</strong>")
             $.each(firstElement, function(k, v) {
                 titles.push(k);
             })
