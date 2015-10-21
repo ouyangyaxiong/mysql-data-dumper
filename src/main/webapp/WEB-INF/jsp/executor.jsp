@@ -75,16 +75,16 @@
                 url: "/executor/execute",
                 data: $("#dbForm").serialize(),
                 error: function (request) {
-                    $("#executeResult").removeClass("alert-success").addClass("alert-error");
+                    $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
                     $("#executeFlag").html("form submit error, please retry or contact system admin.")
                 },
                 success: function (data) {
                     if(data.ret){
-                        $("#executeResult").removeClass("alert-error").addClass("alert-success");
+                        $("#executeResult").removeClass("alert alert-error").addClass("alert alert-success");
                         $("#executeFlag").html("sql execute success.")
                         renderTable(data);
                     } else {
-                        $("#executeResult").removeClass("alert-success").addClass("alert-error");
+                        $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
                         $("#executeFlag").html("sql execute error.")
                     }
                 }
@@ -142,34 +142,6 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="slaveIp">Ip</label>
-
-                <div class="controls">
-                    <input type="text" id="slaveIp" name="ip" placeholder="slave ip">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="slavePort">Port</label>
-
-                <div class="controls">
-                    <input type="password" id="slavePort" name="port" placeholder="slave port">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="UserName">UserName</label>
-
-                <div class="controls">
-                    <input type="text" id="UserName" name="userName" placeholder="UserName">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="Password">Password</label>
-
-                <div class="controls">
-                    <input type="password" id="Password" name="password" placeholder="Password">
-                </div>
-            </div>
-            <div class="control-group">
                 <label class="control-label" for="sql">Sql statement</label>
 
                 <div class="controls">
@@ -185,9 +157,8 @@
             </div>
         </form>
 
-        <div id="executeResult" class="alert alert-success">
-            <%--alert-error--%>
-            <p id="executeFlag">asdas</p>
+        <div id="executeResult">
+            <p id="executeFlag"></p>
         </div>
         <table class="table table-bordered">
             <caption>Execute Result</caption>
