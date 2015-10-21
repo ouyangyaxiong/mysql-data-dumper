@@ -13,6 +13,14 @@ public class SqlSatatementInterceptResult {
 
     private List<String> messages;
 
+    public SqlSatatementInterceptResult() {
+    }
+
+    public SqlSatatementInterceptResult(boolean ret, List<String> messages) {
+        this.ret = ret;
+        this.messages = messages;
+    }
+
     public boolean isRet() {
         return ret;
     }

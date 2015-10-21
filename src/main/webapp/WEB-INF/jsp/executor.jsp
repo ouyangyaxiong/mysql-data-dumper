@@ -151,8 +151,8 @@
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <button type="button" class="btn btn-primary" onclick="formSubmit()">execute</button>
-                    <button type="button" class="btn btn-primary">execute&download</button>
+                    <button type="button" class="btn btn-primary" onclick="formSubmit()">Query</button>
+                    <button type="button" class="btn btn-primary">Query&Download</button>
                 </div>
             </div>
         </form>

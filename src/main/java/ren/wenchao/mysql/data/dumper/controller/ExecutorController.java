@@ -1,8 +1,10 @@
 package ren.wenchao.mysql.data.dumper.controller;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +23,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/executor")
 public class ExecutorController {
+
+    private final Joiner joiner = Joiner.on("\n");
 
     @Resource
     private ExecutorComponent executorComponent;
@@ -44,16 +48,16 @@ public class ExecutorController {
         if (Strings.isNullOrEmpty(executorRequest.getSqlStatement())) {
             return new Result<>(false, "sql statement can not be null", executorRequest.getSqlStatement());
         }
+        List<String> messages = sqlStatementHandlerManager.doIntercept(executorRequest.getSqlStatement());
+        if (!CollectionUtils.isEmpty(messages)) {
+            String msg = joiner.join(messages);
+            return new Result<>(false, msg, null);
+        }
 
-//        List<String> messages = sqlStatementHandlerManager.doIntercept(executorRequest.getSqlStatement());
-//        if (!CollectionUtils.isEmpty(messages)) {
-//            Result<List<String>> result = new Result<>(false, "please check you sql!", messages);
-//            return new ModelAndView("executor", "result", result);
-//        }
         try {
             List<Map<String, Object>> values = executorComponent.doExecute(executorRequest);
             return new Result<>(true, "execute successful", values);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new Result<>(false, e.getMessage(), null);
         }
     }

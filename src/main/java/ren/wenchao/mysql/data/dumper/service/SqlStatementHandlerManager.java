@@ -4,6 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +18,16 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 @Service
 public class SqlStatementHandlerManager {
 
+    @Resource
+    private DefaultSqlStatementInterceptor defaultSqlStatementInterceptor;
+
     private final List<SqlStatementInterceptor> sqlStatementInterceptors =
             Lists.newCopyOnWriteArrayList();
+
+    @PostConstruct
+    public void init() {
+        register(defaultSqlStatementInterceptor);
+    }
 
     public void register(SqlStatementInterceptor sqlStatementInterceptor) {
         Preconditions.checkNotNull(sqlStatementInterceptor);
