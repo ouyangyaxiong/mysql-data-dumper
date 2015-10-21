@@ -102,7 +102,6 @@
                 titles.push(k);
             })
             $.each(titles, function(k, v){
-                console.log(v);
                 $("#dataHead tr").append(
                         "<th>" + v + "</th>"
                 );

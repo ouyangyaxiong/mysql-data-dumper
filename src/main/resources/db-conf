@@ -1,0 +1,5 @@
+#格式定义如下:
+# 数据库名称 host/ip port  username  password
+# 如果数据库实例没有密码,填写*
+
+test  localhost 3306  root  *

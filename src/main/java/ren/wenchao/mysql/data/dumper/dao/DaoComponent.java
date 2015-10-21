@@ -3,8 +3,11 @@ package ren.wenchao.mysql.data.dumper.dao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import ren.wenchao.mysql.data.dumper.model.ExecutorInfo;
+import ren.wenchao.mysql.data.dumper.model.DbConf;
+import ren.wenchao.mysql.data.dumper.model.ExecutorRequest;
+import ren.wenchao.mysql.data.dumper.service.DbConfigLoader;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 
@@ -14,17 +17,24 @@ import java.beans.PropertyVetoException;
 @Component
 public class DaoComponent {
 
-    private DataSource buildDataSource(ExecutorInfo executorInfo) {
+    @Resource
+    private DbConfigLoader dbConfigLoader;
+
+    private DataSource buildDataSource(ExecutorRequest executorRequest) {
+
+        String database = executorRequest.getDatabase();
+        DbConf dbConf = dbConfigLoader.getByDatabase(database);
+
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         try {
             dataSource.setDriverClass("com.mysql.jdbc.Driver");
         } catch (PropertyVetoException e) {
             throw new RuntimeException(e);
         }
-        dataSource.setJdbcUrl(buildJdbcUrl(executorInfo.getIp(), executorInfo.getPort(),
-                executorInfo.getDatabase()));
-        dataSource.setUser(executorInfo.getUserName());
-        dataSource.setPassword(executorInfo.getPassword());
+        dataSource.setJdbcUrl(buildJdbcUrl(dbConf.getHost(), dbConf.getPort(),
+                executorRequest.getDatabase()));
+        dataSource.setUser(dbConf.getUsername());
+        dataSource.setPassword(dbConf.getPassword());
         dataSource.setInitialPoolSize(2);
         dataSource.setMinPoolSize(2);
         dataSource.setMaxPoolSize(5);
@@ -34,12 +44,12 @@ public class DaoComponent {
         return dataSource;
     }
 
-    public JdbcTemplate buildJdbcTemplate(ExecutorInfo executorInfo) {
-        DataSource dataSource = buildDataSource(executorInfo);
+    public JdbcTemplate buildJdbcTemplate(ExecutorRequest executorRequest) {
+        DataSource dataSource = buildDataSource(executorRequest);
         return new JdbcTemplate(dataSource);
     }
 
-    private String buildJdbcUrl(String ip, int port, String database) {
+    private String buildJdbcUrl(String ip, String port, String database) {
         return "jdbc:mysql://" + ip + ":" + port + "/" + database +
                 "?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8";
     }
