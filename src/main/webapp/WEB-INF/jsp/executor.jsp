@@ -78,10 +78,14 @@
     <!-- Begin page content -->
     <div class="container">
         <div class="page-header">
-            <h1>Mysql Data Dumper</h1>
+            <h3>
+                <a href="/executor/render">Query&Download</a>
+                <a href="/dumper/render">DB&Table Dump</a>
+            </h3>
+
         </div>
 
-        <form class="form-horizontal" style="margin: 0 auto" id="dbForm">
+        <form class="form-horizontal" style="margin: 0 auto" id="dbForm" method="post", action="/executor/downloadCsv">
             <div class="control-group">
                 <label class="control-label" for="database">database</label>
 
@@ -100,8 +104,8 @@
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <button type="button" class="btn btn-primary" onclick="formSubmit()">Query</button>
-                    <button type="button" class="btn btn-primary">Query&Download</button>
+                    <button type="button" class="btn btn-primary" onclick="checkAndDo(executeQuery)">Query</button>
+                    <button type="button" class="btn btn-primary" onclick="checkAndDo(downloadData)">Download</button>
                 </div>
             </div>
         </form>
@@ -147,11 +151,39 @@
         })
     });
 
-    function formSubmit() {
+    function checkAndDo(callback){
+        var sql = $("#sql").val();
+        if(!sql){
+            $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
+            $("#executeFlag").html("sql statement can not be null");
+            return;
+        }
         $.ajax({
             type: "post",
             cache: false,
-            url: "/executor/execute",
+            url: "/sql/checker",
+            data: sql,
+            error: function(){
+                $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
+                $("#executeFlag").html("call sql check service error, please retry or contact system admin.")
+            },
+            success: function(data) {
+                if(data.ret){
+                    $("#executeResult").removeClass("alert alert-error").addClass("alert alert-success");
+                    callback();
+                } else {
+                    $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
+                    $("#executeFlag").html(data.message)
+                }
+            }
+        });
+    }
+
+    function executeQuery() {
+        $.ajax({
+            type: "post",
+            cache: false,
+            url: "/executor/query",
             data: $("#dbForm").serialize(),
             error: function (request) {
                 $("#executeResult").removeClass("alert alert-success").addClass("alert alert-error");
@@ -169,6 +201,11 @@
             }
         })
     }
+
+    function downloadData (){
+        $("#dbForm").submit();
+    }
+
 
     function renderTable(data){
         if(data.data.length == 0){
@@ -192,6 +229,20 @@
                 $("#dataBody").append("<td>" + v + "</td>");
             })
             $("#dataBody").append("</tr>");
+        })
+    }
+
+    function csvDownload(){
+        $.ajax({
+            type: "post",
+            cache: false,
+            url: "/executor/downloadCsv",
+            data: $("#dbForm").serialize(),
+            error: function (request) {
+                alert("csv download fild.")
+            },
+            success: function (data) {
+            }
         })
     }
 </script>

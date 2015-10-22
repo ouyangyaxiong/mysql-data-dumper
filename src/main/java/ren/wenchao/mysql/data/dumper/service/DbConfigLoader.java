@@ -51,7 +51,7 @@ public class DbConfigLoader {
                 }
                 String password;
                 if(items.get(4).equals("*")){
-                    password = null;
+                    password = "";
                 } else {
                     password = items.get(4);
                 }

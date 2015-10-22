@@ -26,10 +26,12 @@
 - 简单的实用的sql过滤,避免恶意sql
 - 数据的导出
 - 数据的导出同时下载为CSV格式的文件
+- mysqldump 语句生成
 
 
 ## 运行
 
+    mvn package
     mvn spring-boot:run
 
 然后访问: http://localhost:8080/
@@ -38,7 +40,5 @@
 
 ## TODO
 
-- 数据下载
-- mysql库\表导出现在
-- mysql库\表直接导入某个数据库实例
+
 - 完善登陆页面,增加操作日志和权限管理
